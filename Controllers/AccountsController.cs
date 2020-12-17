@@ -169,10 +169,20 @@ namespace DevAssessementWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] EditResponse response)
         {
+            var LoggedInUserClaim = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            if (!UserExistsByName(LoggedInUserClaim))
+            {
+                return Json(new { status = false, message = "You are not Logged In" });
+            }
+
             var id = Int32.Parse(response.Id);
             var userinfoobj = await _context.UserInformations.FindAsync(id);
             var userobj = await _context.Users.FindAsync(id);
-            userobj.Password = response.Password;
+
+            if (LoggedInUserClaim != userobj.Name)
+            {
+                return Json(new { status = false, message = "You can't edit other user's data !" });
+            }
             if(response.PostalCode != "")
             {
                 userinfoobj.PostalCode = Int32.Parse(response.PostalCode);
@@ -185,6 +195,12 @@ namespace DevAssessementWebsite.Controllers
             {
                 userobj.LastLogin = DateTime.Parse(response.LastLogin);
             }
+            if (response.Password != "")
+            {
+                return Json(new { status = false, message = "Password cannot be empty !" });
+            }
+
+            userobj.Password = response.Password;
 
             userinfoobj.AddressLine1 = response.AddressLine1;
             userinfoobj.AddressLine2 = response.AddressLine2;
@@ -193,11 +209,6 @@ namespace DevAssessementWebsite.Controllers
             userinfoobj.PostalAddress2 = response.PostalAddress2;
             userinfoobj.TellNo = response.TellNo;
             userinfoobj.CellNo = response.CellNo;
-
-            if (UserExists(8))
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -234,6 +245,10 @@ namespace DevAssessementWebsite.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+        private bool UserExistsByName(string name)
+        {
+            return _context.Users.Any(e => e.Name == name);
         }
 
         private async Task<User> AuthenticateUser(string name, string password)
