@@ -239,7 +239,7 @@ namespace DevAssessementWebsite.Controllers
         private async Task<User> AuthenticateUser(string name, string password)
         {
 
-            var user = await _context.Users.FirstAsync(x => x.Name == name);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == name);
 
             if (user != null)
             {
