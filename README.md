@@ -7,6 +7,8 @@ The login page looks like this:
 
 The User Details Page looks like this :
 ![image](https://user-images.githubusercontent.com/20579513/102452827-b3e44480-4043-11eb-9d96-b24e2fee726a.png)
+Note that the user account being edited, won't save changes if the user logged in user isn't == user being edited.
+Anyone can read the user information.
 
 
 The prompt I was provided with was very simple, if I were to give recommendations on this prompt, I would suggest Making password hashing a requirement as based on the prompt I was given password is stored in plaintext, which isn't best practice in the industry.
