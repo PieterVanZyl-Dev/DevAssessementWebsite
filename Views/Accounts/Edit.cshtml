@@ -1,0 +1,190 @@
+﻿@model DevAssessementWebsite.Models.ExtendedInformation
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+    <h3>User Details</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <h4><i class="fas fa-user"></i> User Information</h4>
+            <hr />
+            <form id="Details">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="user.Id" class="control-label"></label>
+                    <input asp-for="user.Id" class="form-control" readonly id="Id" name="Id"/>
+                    <span asp-validation-for="user.Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="user.Name" class="control-label"></label>
+                    <input asp-for="user.Name" class="form-control"  id="Name" readonly/>
+                    <span asp-validation-for="user.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="user.Surname" class="control-label"></label>
+                    <input asp-for="user.Surname" class="form-control"  id="Surname" readonly/>
+                    <span asp-validation-for="user.Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="user.Password" class="control-label"></label>
+                    <input asp-for="user.Password" class="form-control" id="Password" />
+                    <span asp-validation-for="user.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Last Login</label>
+                    <div class='input-group date' id='datepicker'>
+                        <input asp-for="user.LastLogin" type="datetime-local" class="form-control" id="LastLogin" name="LastLogin" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <span asp-validation-for="user.LastLogin" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Telephone Number </label>
+                    <input asp-for="userInformation.TellNo" type="tel" class="form-control" id="TellNo" />
+                    <span asp-validation-for="userInformation.TellNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Cell Phone Number </label>
+                    <input asp-for="userInformation.CellNo" type="tel" class="form-control" id="CellNo" />
+                    <span asp-validation-for="userInformation.CellNo" class="text-danger"></span>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h4><i class="fas fa-map-marker"></i> Address Information</h4>
+            <hr />
+            <form id="Location">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="userInformation.PersonId" />
+                <div class="form-group">
+                    <label asp-for="userInformation.AddressLine1" class="control-label">Address</label>
+                    <input asp-for="userInformation.AddressLine1" class="form-control" id="AddressLine1" />
+                    <span asp-validation-for="userInformation.AddressLine1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="userInformation.AddressLine2" class="control-label">Address - City (Line 2)</label>
+                    <input asp-for="userInformation.AddressLine2" class="form-control" id="AddressLine2" />
+                    <span asp-validation-for="userInformation.AddressLine2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="userInformation.AddressLine3" class="control-label">Address Unit # (Optional)</label>
+                    <input asp-for="userInformation.AddressLine3" class="form-control" id="AddressLine3" />
+                    <span asp-validation-for="userInformation.AddressLine3" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="userInformation.AddressCode" class="control-label">Address Code</label>
+                    <input asp-for="userInformation.AddressCode" type="number" class="form-control" id="AddressCode" />
+                    <span asp-validation-for="userInformation.AddressCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="userInformation.PostalAddress1" class="control-label">Postal Address</label>
+                    <input asp-for="userInformation.PostalAddress1" class="form-control" id="PostalAddress1" />
+                    <span asp-validation-for="userInformation.PostalAddress1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="userInformation.PostalAddress2" class="control-label">Postal Address 2</label>
+                    <input asp-for="userInformation.PostalAddress2" class="form-control" id="PostalAddress2" />
+                    <span asp-validation-for="userInformation.PostalAddress2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="userInformation.PostalCode" class="control-label">Postal Code</label>
+                    <input asp-for="userInformation.PostalCode" type="number" class="form-control" id="PostalCode" />
+                    <span asp-validation-for="userInformation.PostalCode" class="text-danger"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary" onclick="Validate()" />
+
+        <input type="submit" value="Log Out" class="btn btn-primary" onclick="Logout()" />
+    </div>
+</body>
+
+</html>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<script>
+    function Validate() {
+
+            var inputdata = {
+                Id: $('#Id').val(),
+                Password: $('#Password').val(),
+                LastLogin: $('#LastLogin').val(),
+                TellNo: $('#TellNo').val(),
+                CellNo: $('#CellNo').val(),
+                AddressLine1: $('#AddressLine1').val(),
+                AddressLine2: $('#AddressLine2').val(),
+                AddressLine3: $('#AddressLine3').val(),
+                AddressCode: $('#AddressCode').val(),
+                PostalAddress1: $('#PostalAddress1').val(),
+                PostalAddress2: $('#PostalAddress2').val(),
+                PostalCode: $('#PostalCode').val(),
+            };
+
+        console.log(inputdata);
+
+    $.ajax(
+    {
+      type: "POST",
+      url: '@Url.Action("Save", "Accounts")',
+      contentType: "application/json",
+      data: JSON.stringify(inputdata),
+      error: function (result) {
+        alert("Whoops that didn't work, Try Again!");
+      },
+      success: function (result) {
+        console.log(result);
+        if (result.status == true) {
+         alert(result.message);
+        }
+        else {
+          alert(result.message);
+        }
+      }
+    });
+    }
+
+      function Logout() {
+    $.ajax(
+    {
+      type: "POST",
+      url: '@Url.Action("Logout", "Accounts")',
+      error: function (result) {
+        alert("Whoops that didn't work, Try Again!");
+      },
+      success: function (result) {
+        console.log(result);
+        if (result.status == true) {
+          window.location.href = '@Url.Action("Login", "Accounts")';
+        }
+        else {
+          alert(result.message);
+        }
+      }
+    });
+  }
+</script>
